@@ -1,0 +1,35 @@
+
+<table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Product", "/admin/products/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+
+<h1>New product</h1>
+ <% form_for  @product, :url=>{:action => 'create' },:html => {:multipart => true}do |f|  %>
+        Select Category: <%= collection_select("product", "category_id",Category.find(:all), :id, :category_name, { :prompt=> "Select One" }  )%> </br>
+         Product Image:<%= f.file_field :kvr %> </br>
+          Product Name:<%= f.text_field :product_name%> </br>
+          Description: <%= f.text_area :description, :size=>"40x5" %> </br>
+          Price:<%= f.text_field :price%></br>
+          <%=f.submit "Submit"%>
+    <% end %>
+
+<%= link_to 'Back', admin_products_path %>
+

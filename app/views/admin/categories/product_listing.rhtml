@@ -1,0 +1,45 @@
+    <table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Category", "/admin/categories/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+
+ <h3>Listing products  </h3>
+
+ <%=link_to "Go to cart", "/admin/products/product_session"%>
+
+        <table align="center">
+                      <tr> <td>  <%= will_paginate @products%> </td> </tr>
+        </table>
+
+        <%for p in @products%>
+        <table align="center">
+                <tr>
+                        <td>
+                           <%=image_tag p.kvr.url(:thumb) %> </br>
+                           <%= p.product_name%></br>
+
+                           <%= p.price%>.Rs
+                           <%#= link_to "Buy Now", :controller => "categories",:action => "add_product_to_cart",:id => p.id%>
+                           <%=link_to "Buy Now", "/admin/products/add_product_to_session/#{p.id}"%>
+                        </td>
+                </tr>
+        </table>
+     <%end%>
+

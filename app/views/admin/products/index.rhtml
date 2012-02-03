@@ -1,0 +1,73 @@
+        <table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Product", "/admin/products/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+
+
+
+<h3><u> Listing products </u></h3>
+<table align="center">
+                        <% form_tag  admin_products_path, :method => 'get' do %>
+                       <tr>
+                             <td>
+                                 <%= text_field_tag :search, params[:search], :placeholder=>"Search here:"%>
+                                <%= submit_tag "Search", :product_name => nil%>
+                            </td>
+                     </tr>
+                <% end %>
+        </table>
+
+        <table align="center">
+                      <tr> <td>  <%= will_paginate @products%> </td> </tr>
+        </table>
+
+        <table>
+                 <tr>
+                         <th>Product Image</th>
+                         <th>Product name</th>
+                         <th>Price</th>
+                </tr>
+
+        <% @products.each do |product| %>
+                <tr>
+                        <td><%= image_tag product.kvr.url(:thumb) %> </td>
+                         <td><%= product.product_name %></td>
+                        <td><%= product.price %> </td>
+                </tr>
+        <% end %>
+        </table>
+<table align="center">
+                        <% form_tag  admin_products_path, :method => 'get' do %>
+                       <tr>
+                             <td>
+                                 <%= text_field_tag :search, params[:search], :placeholder=>"Search here:"%>
+                                <%= submit_tag "Search", :product_name => nil%>
+                            </td>
+                     </tr>
+                <% end %>
+        </table>
+        <%= text_field_with_auto_complete :product, :product_name, { :size => 15 },{:method => :get} %>
+
+
+
+
+
+<%#= auto_complete_result @products, :product_name %>
+

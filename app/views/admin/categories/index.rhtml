@@ -1,0 +1,79 @@
+
+                        <table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Category", "/admin/categories/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+
+        <h3><u>Listing categories</u></h3>
+        <table align="center">
+                        <% form_tag  admin_categories_path, :method => 'get' do %>
+                       <tr>
+                             <td>
+                                 <%= text_field_tag :search, params[:search], :placeholder=>"Search here:"%>
+                                <%= submit_tag "Search", :category_name => nil%>
+                            </td>
+                     </tr>
+                <% end %>
+        </table>
+
+        <table align="center">
+                      <tr> <td>  <%= will_paginate @categories%> </td> </tr>
+        </table>
+
+         <table style="background:#5EA3D1" width="100%">
+                <tr>
+                        <th style="background:#6A40A8; color:white; width:200px">Category name</th>
+                        <th style="background:#6A40A8; color:white">Category image</th>
+                </tr>
+
+                <% @categories.each do |category| %>
+                <tr>
+                        <td>
+                        <%=  category.category_name%>
+                        </td>
+
+                        <td>
+                        <%=image_tag category.cat.url(:thumb) %>
+                        </td>
+                        <td>
+                        <%=  category.description %>
+                        </td>
+
+                        <td>
+                                <%=link_to "#{category.category_name}",:controller => "categories",:action => "product_listing",:id => category.id%>
+                        </td>
+                </tr>
+
+                 <% end %>
+
+        </table>
+        <table align="center">
+                        <% form_tag  admin_categories_path, :method => 'get' do %>
+                       <tr>
+                             <td>
+
+                                 <%= text_field_tag :search, params[:search], :placeholder=>"Search here:"%>
+                                <%= submit_tag "Search", :category_name => nil%>
+                            </td>
+                     </tr>
+                <% end %>
+        </table>
+        Category Name: <%= text_field_with_auto_complete :category, :category_name, {} %>
+

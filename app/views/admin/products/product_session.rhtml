@@ -1,0 +1,91 @@
+
+<table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Category", "/admin/categories/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+                      <table align="center">
+                        <tr><td>
+                        <%= link_to "Go to home", "/admin/categories"%>
+
+                        </td></tr>
+                </table>
+
+        <% if session[:product].size > 0 %>
+
+                <%form_for @product ,:url => {:action => "cart_update"} do |f|%>
+
+                        <div align="center">
+                        <b style="background:#B47FF5 ; color:white">---Items you selected---</b>  <b style="background:#65389C ; color:white"> <%#= @total%></b>
+                        </div>
+
+                        <table align="center" border="4" width="90%" border="1" rules="rows" style="background:black; color:white">
+                                <tr>
+                                        <th style="background:white; color:black; text-align:left"> &nbsp; </th>
+                                        <th style="background:white; color:black; text-align:left"> Image</th>
+                                        <th style="background:white; color:black; text-align:left"> Product Name</th>
+                                        <th style="background:white; color:black; text-align:left"> Description </th>
+                                         <th style="background:white; color:black; text-align:left">Price </th>
+                                        <th style="background:white; color:black; text-align:left"> Quantity </th>
+                                         <th style="background:white; color:black; text-align:left"> Total </th>
+                                         <th style="background:white; color:black; text-align:left"> &nbsp; </th>
+                                </tr>
+
+                        <% session[:product].each do |p,v|%>
+                                <tr>
+                                        <td>
+                                                <%=flash[:noties]%>
+                                        </td>
+                                        <td>
+                                                <%= image_tag Product.vankat(p).kvr.url(:thumb) %></br>
+                                         </td>
+
+                                         <td>
+                                                   <%= v[:product_name] %>
+                                         </td>
+                                         <td>
+                                                   <%= v[:description] %>
+                                         </td>
+                                         <td>
+                                                   <%= v[:price] %>
+                                         </td>
+                                         <td>
+                                                <%= text_field_tag "new_value[#{p}]", v[:quantity], :size=> "5x10" %>
+                                         </td>
+                                          <td>
+                                                 <%=v[:price]*v[:quantity]%>
+                                         </td>
+                                          <td >
+
+                                                <%= link_to "Remove", {:controller=> "products", :action=> "destroy_cart", :id=>p}, :confirm=> "Are u sure to delete?"%>
+
+                                         </td>
+                                </tr>
+                                <% end %>
+                        </table>
+
+
+                                 <div align="center">
+                                       <%= submit_tag "Update"%>
+                                </div>
+                        <%end%>
+                <%else%>
+                       <p> You didn't select any items </p>
+                <%end%>
+

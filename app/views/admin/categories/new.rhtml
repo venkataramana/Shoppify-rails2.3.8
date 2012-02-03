@@ -1,0 +1,51 @@
+<table width="1200" align="center" bgcolor="black">
+                        <tr>
+                                <td width="15%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Categories", "/admin/categories"%>
+                                </td>
+                                <td width="10%" style="background-color:#006666 ; outline:1px solid white;">
+                                          <%= link_to "Products", admin_products_path %>
+                                </td>
+
+                                   <td width="55%" style="background-color:black ; outline:1px solid white; color:white; text-align:center; color:yellow">
+                                        Welcome to <%= session[:user_name] %>
+                                   </td>
+                                  <td width="13%" style="background-color:#006666; outline:1px solid white;">
+                                          <%= link_to "New Product", "/admin/products/new"%>
+                                  </td>
+                                  <td style="background-color:#006666; outline:1px solid white;">
+                                        <%#= link_to 'Logout', "admin/admin_area/#{@sessionid}" :method => "delete" %>
+                                          <%= link_to "logout", session_path(session[:user_id]), :method=>"delete"%>
+                                  </td>
+                         </tr>
+                    </table>
+
+
+<% form_for  @category, :url=> {:action=> "create"}, :html => { :multipart => true } do |f|%>
+        <table>
+                <tr>
+                        <td>
+                                Category Image:  <%= f.file_field :cat %>
+                        </td>
+                  </tr>
+                <tr>
+                        <td>
+                                Category Name: <%= text_field_with_auto_complete :category, :category_name, {} %>
+                        </td>
+                  </tr>
+                  <tr>
+                         <td>
+                                Description: <%= f.text_area :description, :size=>"40x5" %>
+                        </td>
+                </tr>
+
+        </table>
+        <table>
+                <tr>
+                         <td>
+                                 <%= f.submit "Enter"%>
+                        </td>
+                </tr>
+        </table>
+<%end%>
+
